@@ -13,7 +13,8 @@ class Phone < ApplicationRecord
   end
 
   def self.create_from_first_params(guest, params)
-    guest.phones.create(phone_number: params[:guest][:phone]) if Phone.find_by_phone_number(phone).nil?
+    phone = params[:guest][:phone]
+    guest.phones.create(phone_number: phone) if Phone.find_by_phone_number(phone).nil?
   end
 
   def self.create_from_second_params(guest, params)

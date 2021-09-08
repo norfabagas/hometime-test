@@ -23,8 +23,13 @@ class BookController < ApplicationController
         @guest.save
       else
         @messages = @guest.errors.messages.first
-        render_http_status 400
-        return
+        render json: {
+          status: 400,
+          message: @messages,
+          guest: @guest,
+          phone: @guest.phones.pluck(:phone_number),
+          reservation: @reservation
+        }
       end
     end
 
@@ -38,12 +43,23 @@ class BookController < ApplicationController
         @reservation.save
       else
         @messages = @reservation.errors.messages.first
-        render_http_status 400
-        return
+        render json: {
+          status: 400,
+          message: @messages,
+          guest: @guest,
+          phone: @guest.phones.pluck(:phone_number),
+          reservation: @reservation
+        }
       end
     end
 
-    render_http_status 200
+    render json: {
+      status: 200,
+      message: @messages,
+      guest: @guest,
+      phone: @guest.phones.pluck(:phone_number),
+      reservation: @reservation
+    }
   end
 
   private
